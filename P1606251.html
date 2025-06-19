@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartShop</title>
   <style>
     body {
@@ -11,6 +12,7 @@
       font-family: Arial, sans-serif;
       background-color: #000000;
       color: #ffffff;
+      overflow-y: auto; /* allow scrolling */
     }
 
     header {
@@ -35,6 +37,7 @@
       align-items: flex-start;
       gap: 2rem;
       padding: 2rem;
+      flex-wrap: wrap;
     }
 
     .carousel-container {
@@ -45,7 +48,8 @@
 
     .carousel {
       width: 300px;
-      height: 400px;
+      max-width: 90vw;
+      aspect-ratio: 3 / 4;
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
@@ -54,7 +58,7 @@
     .carousel img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: none;
     }
 
@@ -87,18 +91,19 @@
 
     .product-details {
       max-width: 300px;
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
 
     .product-details h2 {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       margin: 0;
     }
 
     .product-details p {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin: 0;
     }
 
@@ -116,6 +121,59 @@
     .buy-btn:hover {
       background-color: #ffcc00;
     }
+
+    /* Mobile sticky Buy Now button */
+    @media (max-width: 768px) {
+      .buy-btn-fixed {
+        display: block;
+        position: fixed;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        padding: 1rem;
+        background-color: #ffffff;
+        color: #000000;
+        font-weight: bold;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      /* hide normal button on mobile */
+      .product-details .buy-btn:not(.buy-btn-fixed) {
+        display: none;
+      }
+
+      .product-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        padding-bottom: 100px; /* space for sticky button */
+      }
+
+      .product-details {
+        max-width: 90%;
+        text-align: center;
+      }
+
+      .product-details h2 {
+        font-size: 1.1rem;
+      }
+
+      .product-details p {
+        font-size: 1rem;
+      }
+    }
+
+    /* Desktop only: Hide sticky button */
+    @media (min-width: 769px) {
+      .buy-btn-fixed {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -124,7 +182,7 @@
     <h1>SmartShop</h1>
   </header>
 
-  <div class="product-section">
+ <div class="product-section">
     <div class="carousel-container">
       <div class="carousel">
         <img src="https://i.postimg.cc/Lsx5Ncdg/image.jpg" class="active" alt="Slide 1">
@@ -145,22 +203,25 @@
     <div class="product-details">
       <h2>DIVINE Digital Camera FHD Photo Camera 44MP Camera 16X Digital Zoom Simple Compact Cameras Portable Digital Camera (DDC-31)</h2>
       <p>Price: ₹3199</p>
-      <a href="https://amzn.to/4l87gXp" target="_blank" class="buy-btn">Buy Now</a>
+      <a href="https://amzn.to/4l87gXp"  class="buy-btn">Buy Now</a>
     </div>
   </div>
 
+  <!-- Sticky button only for mobile -->
+  <a href="https://amzn.to/43MYHvy"  class="buy-btn buy-btn-fixed">Buy Now</a>
+
   <script>
-    const slides = document.querySelectorAll('.carousel img');
-    const thumbs = document.querySelectorAll('.thumbnails img');
+    const slides = document.querySelectorAll(".carousel img");
+    const thumbs = document.querySelectorAll(".thumbnails img");
 
     function showSlide(index) {
       slides.forEach((img, i) => {
-        img.classList.remove('active');
-        if (i === index) img.classList.add('active');
+        img.classList.remove("active");
+        if (i === index) img.classList.add("active");
       });
       thumbs.forEach((thumb, i) => {
-        thumb.classList.remove('selected');
-        if (i === index) thumb.classList.add('selected');
+        thumb.classList.remove("selected");
+        if (i === index) thumb.classList.add("selected");
       });
     }
   </script>
